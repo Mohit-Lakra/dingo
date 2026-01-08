@@ -27,7 +27,13 @@ name = "dingo"
 
 source_directory_list = ["dingo", join("dingo", "bindings")]
 
-compiler_args = ["-std=c++17", "-O3", "-DBOOST_NO_AUTO_PTR", "-ldl", "-lm", "-fopenmp"]
+compiler_args = ["-O3", "-DBOOST_NO_AUTO_PTR", "-ldl", "-lm", "-fopenmp"]
+
+# Tell distutils to use C++17 for the C++ translation units only.
+cxx_flag = "-std=c++17"
+existing_cxxflags = os.environ.get("CXXFLAGS", "")
+if cxx_flag not in existing_cxxflags.split():
+    os.environ["CXXFLAGS"] = (existing_cxxflags + " " + cxx_flag).strip()
 lp_solve_compiler_args = ["-DYY_NEVER_INTERACTIVE", "-DLoadInverseLib=0", "-DLoadLanguageLib=0",
 "-DRoleIsExternalInvEngine", "-DINVERSE_ACTIVE=3", "-DLoadableBlasLib=0"]
 
